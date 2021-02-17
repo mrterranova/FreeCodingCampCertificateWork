@@ -20,6 +20,12 @@ function destroyer(arr) {
 }
 
 
+
+function spinalCase(str) {
+    return str.split(/\s|_|(?=[A-Z])/).join("-").toLowerCase();
+}
+
+
 function myReplace(str, before, after) {
     let newAfter = ""
     if (startsWithCapitalLetter(before)) {
@@ -38,23 +44,82 @@ function startsWithCapitalLetter(word) {
 
 function pairElement(str) {
     let arr = []
-    for(let i in str){
-      switch(str[i]){
-        case "A":
-          arr.push(["A", "T"]);
-          break; 
-        case "T":
-          arr.push(["T", "A"]); 
-          break;
-        case "C":
-          arr.push(["C", "G"]); 
-          break;
-        case "G":
-          arr.push(["G", "C"]);
-          break;
-      }
+    for (let i in str) {
+        switch (str[i]) {
+            case "A":
+                arr.push(["A", "T"]);
+                break;
+            case "T":
+                arr.push(["T", "A"]);
+                break;
+            case "C":
+                arr.push(["C", "G"]);
+                break;
+            case "G":
+                arr.push(["G", "C"]);
+                break;
+        }
     }
     return arr;
+}
+
+function fearNotLetter(str) {
+    let missing = 0
+    let ascii = str.split('').map(m => m.charCodeAt(0))
+    let temp = ascii[0];
+    for (let i = 0; i < ascii.length; i++) {
+        if (ascii[i] != temp) {
+            missing = temp;
+            break;
+        }
+        temp++;
+    }
+
+    return (missing == "") ? undefined : String.fromCharCode(missing)
+}
+
+function uniteUnique(arr) {
+    let args = Array.prototype.slice.call(arguments);
+    let newArr = args.toString().split(",")
+    return newArr.filter((x, index) => {
+        return newArr.indexOf(x) === index;
+    }).map(m => parseInt(m))
+}
+
+console.log(uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]))
+
+
+function convertHTML(str) {
+    return str.split("").map(m => m.replace("&", "&amp;")
+        .replace(">", "&gt;").replace("<", "&lt;").replace("\"", "&quot;")
+        .replace("'", "&apos;")).join("")
+}
+
+function sumPrimes(num) {
+    let sum = 0;
+    for(let i=0; i<=num; i++){
+      if(isPrime(i)){
+        sum+=i;
+      }
+    }
+    return sum;
+  }
+  
+  function isPrime(num) {
+    for(var i = 2; i < num; i++)
+      if(num % i === 0) return false;
+    return num > 1;
   }
 
-  
+  function dropElements(arr, func) {
+    let newArr =[]; 
+    let rest = 0
+    for(let i=0;i<arr.length; i++){
+      if(func(arr[i])){
+        newArr.push(arr[i])
+        rest = i
+        break;
+      }
+    }
+    return newArr.length>0 ?newArr.concat(arr.splice(rest+1)): [];
+  }
